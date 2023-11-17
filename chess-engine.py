@@ -25,10 +25,57 @@ p p p p p p p p
 P P P P P P P P
 R N B Q K B N R
 
+Now that we have the module at our disposal we have plenty of built in functionality
+like moving pieces, or checking if the board is stalemate. Still we need to build
+a function that takes as an argument a chess board and returns an evaluation as well
+as the correct move to play
 '''
 
 import chess
 
+# Represent a chess board
 board = chess.Board()
 
-print(board)
+print(board.legal_moves)
+
+# Function takes as input a board
+def evaluate (board):
+
+# White mates: positive integer    
+    if board.white_mated():
+        return 1000
+    
+# Black mates: negative integer
+    if board.black_mated():
+        return -1000
+    
+# Draw = 0
+    if board.is_draw():
+        return 0
+
+    pass
+
+'''
+But this cases above are quite simple, yet how do we evaluate a more complex and undecided
+position, we could asing values for each of the pieces, using the standard values
+like pawn:1, knight:3, bishop: 3.15, rook:5, queen: 9.
+
+Than we could add up all the white pieces and the black pieces and substract them
+therefor getting a score
+'''
+
+# TODO: each function should return a total of the material of each player taking
+# as input a chess board
+
+def black_material(board):
+    return 0
+
+def white_material(board):
+    return 0
+
+'''
+After that we can utilize the minimax algorithm 
+'''
+
+def minimax(board, depth) -> float:
+    
