@@ -36,8 +36,6 @@ import chess
 # Represent a chess board
 board = chess.Board()
 
-print(board.legal_moves)
-
 # Function takes as input a board
 def evaluate (board):
 
@@ -56,26 +54,31 @@ def evaluate (board):
     pass
 
 '''
-But this cases above are quite simple, yet how do we evaluate a more complex and undecided
-position, we could asing values for each of the pieces, using the standard values
-like pawn:1, knight:3, bishop: 3.15, rook:5, queen: 9.
+But this cases above are quite simple (The game is basically over)
+Yet how can we evaluate more complex and less clear positions we could start by 
+asiging values for each of the pieces, using the standard values
+like pawn:1, knight:3, bishop: 3.15 (fisher value), rook:5, queen: 9.
 
-Than we could add up all the white pieces and the black pieces and substract them
-therefor getting a score
+Than we could add up all the white pieces and the black pieces and substract each other
+getting a score
 '''
 
 # TODO: each function should return a total of the material of each player taking
 # as input a chess board
 
 def black_material(board):
-    return 0
+
+    # Store the pieces
+    black_pieces = []
+
+    # Iterate trough the board
+    for piece in board.items():
+        print(piece)
+
+    return print(black_pieces)
 
 def white_material(board):
     return 0
 
-'''
-After that we can utilize the minimax algorithm 
-'''
+black_material(board)
 
-def minimax(board, depth) -> float:
-    
