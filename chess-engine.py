@@ -17,3 +17,23 @@ import chess
 
 board = chess.Board()
 print(board.legal_moves)
+
+
+"""
+Now we need to create a function that evaluates the board, basically 
+a function that takes as input a chess board and returns a positive
+integer is the position is favorable for white or a negative integer
+if the position is favorable for black (or near 0 if equal)
+"""
+
+
+
+def evaluate(board):
+    position = 0
+    # Iterate trough the board
+
+    # If piece white add positive integer 
+
+    # 
+
+    return position
