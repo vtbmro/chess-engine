@@ -44,11 +44,17 @@ def evaluate(board):
 # Correctly iterates trough the board
     for square in algebraic_notation:
         piece = board.piece_at(chess.parse_square(f"{square}"))
-        print(piece)
+
+# If square has a piece
+        if hasattr(piece, "piece_type"):
+            print(piece.symbol())
+
+            
+
+
 # White piece: add positive value to position acording to piece
 
 # Black piece: add negative value to position according to piece
-
 
     return position
 
