@@ -1,26 +1,6 @@
 
-'''
-My idea is to combine both my final project of CS50x and CS50w by building an
-engine in python and the building a interactive web page where users can use 
-the engine to analyze postions
-
-I will be using chessprogramming.org as a guide.  
-
-Generally the first step in building a chess engine is board representation, 
-Basically the back end of this program, a way to keep track of the board and the 
-rules of the game. But since we are using python I think it is appropriate to 
-just focus on the higher level program and just use the chess module for simplication 
-'''
-
 import chess
 board = chess.Board()
-
-"""
-Now we need to create a function that evaluates the board, basically 
-a function that takes as input a chess board and returns a positive
-integer is the position is favorable for white or a negative integer
-if the position is favorable for black (or near 0 if equal)
-"""
 
 algebraic_notation = [
 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1',
@@ -33,14 +13,7 @@ algebraic_notation = [
 'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'
 ]
 
-"""
-P = 100
-N = 320
-B = 330
-R = 500
-Q = 900
-K = 20000
-"""
+
 
 white_pawn = [ 
  0,  0,  0,  0,  0,  0,  0,  0,
@@ -174,31 +147,87 @@ black_king = [
 -30,-40,-40,-50,-50,-40,-40,-30,
 ]
 
+# Function need to takes as input a chess booard. Iterate trough 
+# the board and check if piece is black/white after, that add to 
+# position value depending on the piece position.
+
+"""
+P = 100
+N = 320
+B = 330
+R = 500
+Q = 900
+K = 2000
+"""
+
 def evaluate(board):
-    position = 0
+  position = 0
 
-# Correctly iterates trough the board
-    for square in algebraic_notation:
-        piece = board.piece_at(chess.parse_square(f"{square}"))
+# Iterate trough board
+  for square in algebraic_notation:
+    piece = board.piece_at(chess.parse_square(f"{square}"))
 
-# Check if square has a piece
-        if hasattr(piece, "piece_type"):
-
+# Check if there is a piece in the square
+    if hasattr(piece, "piece_type"):
+      print(position)
+  
 # White piece
-            if piece.symbol().islower():
-                pass
+      if piece.symbol().islower():
+        
+# Pawn
+        if piece.symbol() == "p":
+          position += 100
+          
+# Knight
+        elif piece.symbol() == "n":
+          position += 320
 
-# Black piece
-            else:
-                pass
+# Bishop
+        elif piece.symbol() == "b":
+          position += 330
 
-    return position
+# Rook
+        elif piece.symbol() == "r":
+          position += 500
 
-"""
-The problem is currently this evaluate function doesn't take into
-account pieces position, for example a Knight located in the center
-of the board controls more important squares than a kinght located at
-the edge of the board
-"""
+# Queen
+        elif piece.symbol() == "q":
+          position += 900
+
+# KIng
+        elif piece.symbol() == "k":
+          position += 2000 
+
+# Piece is black
+      elif piece.symbol().isupper():
+
+# Pawn
+        if piece.symbol() == "P":
+          position -= 100
+          
+# Knight
+        elif piece.symbol() == "N":
+          position -= 320
+
+# Bishop
+        elif piece.symbol() == "B":
+          position -= 330
+
+# Rook
+        elif piece.symbol() == "R":
+          position -= 500
+
+# Queen
+        elif piece.symbol() == "Q":
+          position -= 900
+
+# KIng
+        elif piece.symbol() == "K":
+          position -= 2000 
+
+  return position
 
 print(evaluate(board))
+
+
+
