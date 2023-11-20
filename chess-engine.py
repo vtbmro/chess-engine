@@ -1,155 +1,22 @@
-
 import chess
+import eval
+
 board = chess.Board()
-
-algebraic_notation = [
-'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1',
-'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2',
-'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3',
-'a4', 'b4', 'c4', 'd4', 'e4', 'f4', 'g4', 'h4',
-'a5', 'b5', 'c5', 'd5', 'e5', 'f5', 'g5', 'h5',
-'a6', 'b6', 'c6', 'd6', 'e6', 'f6', 'g6', 'h6',
-'a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7',
-'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'
-]
-
-
-
-white_pawn = [ 
- 0,  0,  0,  0,  0,  0,  0,  0,
-50, 50, 50, 50, 50, 50, 50, 50,
-10, 10, 20, 30, 30, 20, 10, 10,
- 5,  5, 10, 25, 25, 10,  5,  5,
- 0,  0,  0, 20, 20,  0,  0,  0,
- 5, -5,-10,  0,  0,-10, -5,  5,
- 5, 10, 10,-20,-20, 10, 10,  5,
- 0,  0,  0,  0,  0,  0,  0,  0
- ]
-
-black_pawn = [
- 0,  0,  0,  0,  0,  0,  0,  0,
- 5, 10, 10,-20,-20, 10, 10,  5,
- 5, -5,-10,  0,  0,-10, -5,  5,
- 0,  0,  0, 20, 20,  0,  0,  0,
- 5,  5, 10, 25, 25, 10,  5,  5,
-10, 10, 20, 30, 30, 20, 10, 10,
-50, 50, 50, 50, 50, 50, 50, 50,
- 0,  0,  0,  0,  0,  0,  0,  0
-]
-
-white_knight = [
--50,-40,-30,-30,-30,-30,-40,-50,
--40,-20,  0,  0,  0,  0,-20,-40,
--30,  0, 10, 15, 15, 10,  0,-30,
--30,  5, 15, 20, 20, 15,  5,-30,
--30,  0, 15, 20, 20, 15,  0,-30,
--30,  5, 10, 15, 15, 10,  5,-30,
--40,-20,  0,  5,  5,  0,-20,-40,
--50,-40,-30,-30,-30,-30,-40,-50,
-]
-
-black_knight = [
--50,-40,-30,-30,-30,-30,-40,-50,
--40,-20,  0,  5,  5,  0,-20,-40,
--30,  5, 10, 15, 15, 10,  5,-30,
--30,  0, 15, 20, 20, 15,  0,-30,
--30,  5, 15, 20, 20, 15,  5,-30,
--30,  0, 10, 15, 15, 10,  0,-30,
--40,-20,  0,  0,  0,  0,-20,-40,
--50,-40,-30,-30,-30,-30,-40,-50,
-]
-
-white_bishop = [
--20,-10,-10,-10,-10,-10,-10,-20,
--10,  0,  0,  0,  0,  0,  0,-10,
--10,  0,  5, 10, 10,  5,  0,-10,
--10,  5,  5, 10, 10,  5,  5,-10,
--10,  0, 10, 10, 10, 10,  0,-10,
--10, 10, 10, 10, 10, 10, 10,-10,
--10,  5,  0,  0,  0,  0,  5,-10,
--20,-10,-10,-10,-10,-10,-10,-20,
-]
- 
-black_bishop = [
--20,-10,-10,-10,-10,-10,-10,-20,
--10,  5,  0,  0,  0,  0,  5,-10,
--10, 10, 10, 10, 10, 10, 10,-10,
--10,  0, 10, 10, 10, 10,  0,-10,
--10,  5,  5, 10, 10,  5,  5,-10,
--10,  0,  5, 10, 10,  5,  0,-10,
--10,  0,  0,  0,  0,  0,  0,-10,
--20,-10,-10,-10,-10,-10,-10,-20,
-]
-
-white_rook = [
-  0,  0,  0,  0,  0,  0,  0,  0,
-  5, 10, 10, 10, 10, 10, 10,  5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
-  0,  0,  0,  5,  5,  0,  0,  0
-]
-
-black_rook = [
-  0,  0,  0,  5,  5,  0,  0,  0
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
- -5,  0,  0,  0,  0,  0,  0, -5,
-  5, 10, 10, 10, 10, 10, 10,  5,
-  0,  0,  0,  0,  0,  0,  0,  0,
-]
-
-white_queen = [
--20,-10,-10, -5, -5,-10,-10,-20,
--10,  0,  0,  0,  0,  0,  0,-10,
--10,  0,  5,  5,  5,  5,  0,-10,
- -5,  0,  5,  5,  5,  5,  0, -5,
-  0,  0,  5,  5,  5,  5,  0, -5,
--10,  5,  5,  5,  5,  5,  0,-10,
--10,  0,  5,  0,  0,  0,  0,-10,
--20,-10,-10, -5, -5,-10,-10,-20
-]
-
-black_queen = [
--20,-10,-10, -5, -5,-10,-10,-20
--10,  0,  5,  0,  0,  0,  0,-10,
--10,  5,  5,  5,  5,  5,  0,-10,
-  0,  0,  5,  5,  5,  5,  0, -5,
- -5,  0,  5,  5,  5,  5,  0, -5,
--10,  0,  5,  5,  5,  5,  0,-10,
--10,  0,  0,  0,  0,  0,  0,-10,
--20,-10,-10, -5, -5,-10,-10,-20,
-]
-
-white_king = [
--30,-40,-40,-50,-50,-40,-40,-30,
--30,-40,-40,-50,-50,-40,-40,-30,
--30,-40,-40,-50,-50,-40,-40,-30,
--30,-40,-40,-50,-50,-40,-40,-30,
--20,-30,-30,-40,-40,-30,-30,-20,
--10,-20,-20,-20,-20,-20,-20,-10,
- 20, 20,  0,  0,  0,  0, 20, 20,
- 20, 30, 10,  0,  0, 10, 30, 20
-]
-
-black_king = [
- 20, 30, 10,  0,  0, 10, 30, 20,
- 20, 20,  0,  0,  0,  0, 20, 20,
--10,-20,-20,-20,-20,-20,-20,-10,
--20,-30,-30,-40,-40,-30,-30,-20,
--30,-40,-40,-50,-50,-40,-40,-30,
--30,-40,-40,-50,-50,-40,-40,-30,
--30,-40,-40,-50,-50,-40,-40,-30,
--30,-40,-40,-50,-50,-40,-40,-30,
-]
 
 # Function need to takes as input a chess booard. Iterate trough 
 # the board and check if piece is black/white after, that add to 
 # position value depending on the piece position.
+
+algebraic_notation = [
+'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8',
+'a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7',
+'a6', 'b6', 'c6', 'd6', 'e6', 'f6', 'g6', 'h6', 
+'a5', 'b5', 'c5', 'd5', 'e5', 'f5', 'g5', 'h5',
+'a4', 'b4', 'c4', 'd4', 'e4', 'f4', 'g4', 'h4',
+'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3',
+'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2',
+'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'
+]
 
 """
 P = 100
@@ -163,6 +30,8 @@ K = 2000
 def evaluate(board):
   position = 0
 
+# TODO: add a check to see if the position is either a draw or checkmate.
+
 # Iterate trough board
   for square in algebraic_notation:
     piece = board.piece_at(chess.parse_square(f"{square}"))
@@ -170,62 +39,40 @@ def evaluate(board):
 # Check if there is a piece in the square
     if hasattr(piece, "piece_type"):
       print(position)
-  
-# White piece
+
+# Piece is black   
       if piece.symbol().islower():
-        
-# Pawn
         if piece.symbol() == "p":
-          position += 100
-          
-# Knight
+          position -= (100 + eval.black_pawn[square])
         elif piece.symbol() == "n":
-          position += 320
-
-# Bishop
+          position -= (320 + eval.black_knight[square])
         elif piece.symbol() == "b":
-          position += 330
-
-# Rook
+          position -= (330 + eval.black_bishop[square])
         elif piece.symbol() == "r":
-          position += 500
-
-# Queen
+          position -= (500 + eval.black_rook[square])
         elif piece.symbol() == "q":
-          position += 900
-
-# KIng
+          position -= (900 + eval.black_queen[square])
         elif piece.symbol() == "k":
-          position += 2000 
+          position -= (2000 + eval.black_king[square])
 
-# Piece is black
+# Piece is white
       elif piece.symbol().isupper():
-
-# Pawn
         if piece.symbol() == "P":
-          position -= 100
-          
-# Knight
+          position += (100 + eval.white_pawn[square])
         elif piece.symbol() == "N":
-          position -= 320
-
-# Bishop
+          position += (320 + eval.white_knight[square])
         elif piece.symbol() == "B":
-          position -= 330
-
-# Rook
+          position += (330 + eval.white_bishop[square])
         elif piece.symbol() == "R":
-          position -= 500
-
-# Queen
+          position += (500 + eval.white_rook[square])
         elif piece.symbol() == "Q":
-          position -= 900
-
-# KIng
+          position += (900 + eval.white_queen[square])
         elif piece.symbol() == "K":
-          position -= 2000 
-
+          position += (2000 + eval.white_king[square])
+        
+# Return positive integer if position is favorable for white, negative if position is favorable for black
   return position
+
 
 print(evaluate(board))
 
