@@ -16,8 +16,6 @@ just focus on the higher level program and just use the chess module for simplic
 import chess
 
 board = chess.Board()
-print(board.legal_moves)
-
 
 """
 Now we need to create a function that evaluates the board, basically 
@@ -38,24 +36,116 @@ algebraic_notation = [
 'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'
 ]
 
+white_pawn = [ 
+0,  0,  0,  0,  0,  0,  0,  0,
+50, 50, 50, 50, 50, 50, 50, 50,
+10, 10, 20, 30, 30, 20, 10, 10,
+ 5,  5, 10, 25, 25, 10,  5,  5,
+ 0,  0,  0, 20, 20,  0,  0,  0,
+ 5, -5,-10,  0,  0,-10, -5,  5,
+ 5, 10, 10,-20,-20, 10, 10,  5,
+ 0,  0,  0,  0,  0,  0,  0,  0
+ ]
+
+white_knight = [
+-50,-40,-30,-30,-30,-30,-40,-50,
+-40,-20,  0,  0,  0,  0,-20,-40,
+-30,  0, 10, 15, 15, 10,  0,-30,
+-30,  5, 15, 20, 20, 15,  5,-30,
+-30,  0, 15, 20, 20, 15,  0,-30,
+-30,  5, 10, 15, 15, 10,  5,-30,
+-40,-20,  0,  5,  5,  0,-20,-40,
+-50,-40,-30,-30,-30,-30,-40,-50
+]
+
+white_bishop = [
+-20,-10,-10,-10,-10,-10,-10,-20,
+-10,  0,  0,  0,  0,  0,  0,-10,
+-10,  0,  5, 10, 10,  5,  0,-10,
+-10,  5,  5, 10, 10,  5,  5,-10,
+-10,  0, 10, 10, 10, 10,  0,-10,
+-10, 10, 10, 10, 10, 10, 10,-10,
+-10,  5,  0,  0,  0,  0,  5,-10,
+-20,-10,-10,-10,-10,-10,-10,-20
+]
+
+white_rook = [
+-20,-10,-10, -5, -5,-10,-10,-20,
+-10,  0,  0,  0,  0,  0,  0,-10,
+-10,  0,  5,  5,  5,  5,  0,-10,
+ -5,  0,  5,  5,  5,  5,  0, -5,
+  0,  0,  5,  5,  5,  5,  0, -5,
+-10,  5,  5,  5,  5,  5,  0,-10,
+-10,  0,  5,  0,  0,  0,  0,-10,
+-20,-10,-10, -5, -5,-10,-10,-20
+]
+
+white_king_middlegame = [
+-30,-40,-40,-50,-50,-40,-40,-30,
+-30,-40,-40,-50,-50,-40,-40,-30,
+-30,-40,-40,-50,-50,-40,-40,-30,
+-30,-40,-40,-50,-50,-40,-40,-30,
+-20,-30,-30,-40,-40,-30,-30,-20,
+-10,-20,-20,-20,-20,-20,-20,-10,
+ 20, 20,  0,  0,  0,  0, 20, 20,
+ 20, 30, 10,  0,  0, 10, 30, 20
+]
+
+white_king_endgame = []
+
 def evaluate(board):
-    position = 0
+    position = 0.0
 
 # Correctly iterates trough the board
     for square in algebraic_notation:
         piece = board.piece_at(chess.parse_square(f"{square}"))
 
-# If square has a piece
+# Check if square has a piece
         if hasattr(piece, "piece_type"):
-            print(piece.symbol())
 
-            
-
+# Check if piece is white
+            if piece.symbol().islower():
+                
+# Add value to position depending on piece
 
 # White piece: add positive value to position acording to piece
+                match piece.symbol():
+                    case "p":
+                        position += 100
+                    case "n":
+                        position += 320
+                    case "b":
+                        position += 330
+                    case "r":
+                        position += 500
+                    case "q":
+                        position += 900
+                    case "k":
+                        position += 2000
 
 # Black piece: add negative value to position according to piece
+            else:
+                match piece.symbol():
+                    case "P":
+                        position -= 100
+                    case "N":
+                        position -= 320
+                    case "B":
+                        position -= 330
+                    case "R":
+                        position -= 500
+                    case "Q":
+                        position -= 900
+                    case "K":
+                        position -= 2000
 
     return position
 
-evaluate(board)
+"""
+The problem is currently this evaluate function doesn't take into
+account pieces position, for example a Knight located in the center
+of the board controls more important squares than a kinght located at
+the edge of the board
+"""
+
+print(evaluate(board))
