@@ -12,9 +12,7 @@ rules of the game. But since we are using python I think it is appropriate to
 just focus on the higher level program and just use the chess module for simplication 
 '''
 
-
 import chess
-
 board = chess.Board()
 
 """
@@ -24,7 +22,6 @@ integer is the position is favorable for white or a negative integer
 if the position is favorable for black (or near 0 if equal)
 """
 
-# Added this to be able to traverse trough the board easily
 algebraic_notation = [
 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1',
 'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2',
@@ -36,8 +33,17 @@ algebraic_notation = [
 'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'
 ]
 
+"""
+P = 100
+N = 320
+B = 330
+R = 500
+Q = 900
+K = 20000
+"""
+
 white_pawn = [ 
-0,  0,  0,  0,  0,  0,  0,  0,
+ 0,  0,  0,  0,  0,  0,  0,  0,
 50, 50, 50, 50, 50, 50, 50, 50,
 10, 10, 20, 30, 30, 20, 10, 10,
  5,  5, 10, 25, 25, 10,  5,  5,
@@ -47,6 +53,17 @@ white_pawn = [
  0,  0,  0,  0,  0,  0,  0,  0
  ]
 
+black_pawn = [
+ 0,  0,  0,  0,  0,  0,  0,  0,
+ 5, 10, 10,-20,-20, 10, 10,  5,
+ 5, -5,-10,  0,  0,-10, -5,  5,
+ 0,  0,  0, 20, 20,  0,  0,  0,
+ 5,  5, 10, 25, 25, 10,  5,  5,
+10, 10, 20, 30, 30, 20, 10, 10,
+50, 50, 50, 50, 50, 50, 50, 50,
+ 0,  0,  0,  0,  0,  0,  0,  0
+]
+
 white_knight = [
 -50,-40,-30,-30,-30,-30,-40,-50,
 -40,-20,  0,  0,  0,  0,-20,-40,
@@ -55,7 +72,18 @@ white_knight = [
 -30,  0, 15, 20, 20, 15,  0,-30,
 -30,  5, 10, 15, 15, 10,  5,-30,
 -40,-20,  0,  5,  5,  0,-20,-40,
--50,-40,-30,-30,-30,-30,-40,-50
+-50,-40,-30,-30,-30,-30,-40,-50,
+]
+
+black_knight = [
+-50,-40,-30,-30,-30,-30,-40,-50,
+-40,-20,  0,  5,  5,  0,-20,-40,
+-30,  5, 10, 15, 15, 10,  5,-30,
+-30,  0, 15, 20, 20, 15,  0,-30,
+-30,  5, 15, 20, 20, 15,  5,-30,
+-30,  0, 10, 15, 15, 10,  0,-30,
+-40,-20,  0,  0,  0,  0,-20,-40,
+-50,-40,-30,-30,-30,-30,-40,-50,
 ]
 
 white_bishop = [
@@ -66,10 +94,45 @@ white_bishop = [
 -10,  0, 10, 10, 10, 10,  0,-10,
 -10, 10, 10, 10, 10, 10, 10,-10,
 -10,  5,  0,  0,  0,  0,  5,-10,
--20,-10,-10,-10,-10,-10,-10,-20
+-20,-10,-10,-10,-10,-10,-10,-20,
+]
+ 
+black_bishop = [
+-20,-10,-10,-10,-10,-10,-10,-20,
+-10,  5,  0,  0,  0,  0,  5,-10,
+-10, 10, 10, 10, 10, 10, 10,-10,
+-10,  0, 10, 10, 10, 10,  0,-10,
+-10,  5,  5, 10, 10,  5,  5,-10,
+-10,  0,  5, 10, 10,  5,  0,-10,
+-10,  0,  0,  0,  0,  0,  0,-10,
+-20,-10,-10,-10,-10,-10,-10,-20,
 ]
 
+# Good
+
 white_rook = [
+  0,  0,  0,  0,  0,  0,  0,  0,
+  5, 10, 10, 10, 10, 10, 10,  5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+  0,  0,  0,  5,  5,  0,  0,  0
+]
+
+black_rook = [
+  0,  0,  0,  5,  5,  0,  0,  0
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+ -5,  0,  0,  0,  0,  0,  0, -5,
+  5, 10, 10, 10, 10, 10, 10,  5,
+  0,  0,  0,  0,  0,  0,  0,  0,
+]
+
+white_queen = [
 -20,-10,-10, -5, -5,-10,-10,-20,
 -10,  0,  0,  0,  0,  0,  0,-10,
 -10,  0,  5,  5,  5,  5,  0,-10,
@@ -80,7 +143,18 @@ white_rook = [
 -20,-10,-10, -5, -5,-10,-10,-20
 ]
 
-white_king_middlegame = [
+black_queen = [
+-20,-10,-10, -5, -5,-10,-10,-20
+-10,  0,  5,  0,  0,  0,  0,-10,
+-10,  5,  5,  5,  5,  5,  0,-10,
+  0,  0,  5,  5,  5,  5,  0, -5,
+ -5,  0,  5,  5,  5,  5,  0, -5,
+-10,  0,  5,  5,  5,  5,  0,-10,
+-10,  0,  0,  0,  0,  0,  0,-10,
+-20,-10,-10, -5, -5,-10,-10,-20,
+]
+
+white_king = [
 -30,-40,-40,-50,-50,-40,-40,-30,
 -30,-40,-40,-50,-50,-40,-40,-30,
 -30,-40,-40,-50,-50,-40,-40,-30,
@@ -91,10 +165,12 @@ white_king_middlegame = [
  20, 30, 10,  0,  0, 10, 30, 20
 ]
 
-white_king_endgame = []
+black_king = [
+
+]
 
 def evaluate(board):
-    position = 0.0
+    position = 0
 
 # Correctly iterates trough the board
     for square in algebraic_notation:
@@ -103,41 +179,13 @@ def evaluate(board):
 # Check if square has a piece
         if hasattr(piece, "piece_type"):
 
-# Check if piece is white
+# White piece
             if piece.symbol().islower():
-                
-# Add value to position depending on piece
+                pass
 
-# White piece: add positive value to position acording to piece
-                match piece.symbol():
-                    case "p":
-                        position += 100
-                    case "n":
-                        position += 320
-                    case "b":
-                        position += 330
-                    case "r":
-                        position += 500
-                    case "q":
-                        position += 900
-                    case "k":
-                        position += 2000
-
-# Black piece: add negative value to position according to piece
+# Black piece
             else:
-                match piece.symbol():
-                    case "P":
-                        position -= 100
-                    case "N":
-                        position -= 320
-                    case "B":
-                        position -= 330
-                    case "R":
-                        position -= 500
-                    case "Q":
-                        position -= 900
-                    case "K":
-                        position -= 2000
+                pass
 
     return position
 
