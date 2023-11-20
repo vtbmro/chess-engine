@@ -1,5 +1,5 @@
 
-# This file contains ditcs used to evaluate piece according to their position on the board, the better positioned the better value.
+# This file contains ditcs used to evaluate piece according to their position on the board, the better positioned the better the value.
 
 # PAWN
 
