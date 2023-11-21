@@ -242,10 +242,7 @@ def evaluate(board):
         elif piece.symbol() == "K":
           position += (2000 + white_king[square])
       
-  return position
-  
-
-print(evaluate(board))
+  return position 
 
 """
 Looking back it would have made more sense to code this in C since it would have been
