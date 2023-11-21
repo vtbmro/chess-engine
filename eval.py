@@ -1,5 +1,12 @@
+import chess
 
-# This file contains ditcs used to evaluate piece according to their position on the board, the better positioned the better the value.
+"""
+The dicts under this comment cotain values that help the eval function accurately
+assess the board using the position of each piece, the better positioned a piece is
+the higher its value will be, the oppsite is also true.
+
+The table information I got from: https://www.chessprogramming.org/Simplified_Evaluation_Function
+"""
 
 # PAWN
 
@@ -146,3 +153,80 @@ black_king = {
   'a1': -30, 'b1': -40, 'c1': -40, 'd1': -50, 'e1': -50, 'f1': -40, 'g1': -40, 'h1': -30
   }
 
+"""
+Under this funtion I implemented a evaluate function that takes as input a board
+and returns a integer, positive if the position favors white and negative if the position 
+favor black.
+"""
+
+board = chess.Board()
+
+algebraic_notation = [
+'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8',
+'a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7',
+'a6', 'b6', 'c6', 'd6', 'e6', 'f6', 'g6', 'h6', 
+'a5', 'b5', 'c5', 'd5', 'e5', 'f5', 'g5', 'h5',
+'a4', 'b4', 'c4', 'd4', 'e4', 'f4', 'g4', 'h4',
+'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3',
+'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2',
+'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'
+]
+
+def evaluate(board):
+  position = 0
+
+# TODO: Check if position is either draw, mate or stale mate.
+
+# Iterate trough board
+  for square in algebraic_notation:
+    piece = board.piece_at(chess.parse_square(f"{square}"))
+
+# Check if there is a piece in the square
+    if hasattr(piece, "piece_type"):
+
+# Piece is black   
+      if piece.symbol().islower():
+
+        if piece.symbol() == "p":
+          position -= (100 + eval.black_pawn[square])
+
+        elif piece.symbol() == "n":
+          position -= (320 + eval.black_knight[square])
+
+        elif piece.symbol() == "b":
+          position -= (330 + eval.black_bishop[square])
+
+        elif piece.symbol() == "r":
+          position -= (500 + eval.black_rook[square])
+
+        elif piece.symbol() == "q":
+          position -= (900 + eval.black_queen[square])
+
+        elif piece.symbol() == "k":
+          position -= (2000 + eval.black_king[square])
+
+# Piece is white
+      elif piece.symbol().isupper():
+
+        if piece.symbol() == "P":
+          position += (100 + eval.white_pawn[square])
+
+        elif piece.symbol() == "N":
+          position += (320 + eval.white_knight[square])
+
+        elif piece.symbol() == "B":
+          position += (330 + eval.white_bishop[square])
+
+        elif piece.symbol() == "R":
+          position += (500 + eval.white_rook[square])
+
+        elif piece.symbol() == "Q":
+          position += (900 + eval.white_queen[square])
+
+        elif piece.symbol() == "K":
+          position += (2000 + eval.white_king[square])
+      
+    return position
+
+
+""""""
