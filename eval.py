@@ -172,10 +172,42 @@ algebraic_notation = [
 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'
 ]
 
+"""
+board.push_san("e4")
+
+board.push_san("e5")
+
+board.push_san("Qh5")
+
+board.push_san("Nc6")
+
+board.push_san("Bc4")
+
+board.push_san("Nf6")
+
+board.push_san("Qxf7")
+"""
+
 def evaluate(board):
   position = 0
 
-# TODO: Check if position is either draw, mate or stale mate.
+# Check if position is mate
+  if board.is_checkmate():
+
+# White mate
+    if board.turn() == True:
+      position = 2000
+      return position
+    
+# Black mate
+    else:
+      postion = -2000
+      return postion
+    
+# Draw of stalemate
+  elif board.is_stalemate() or board.is_insufficient_material():
+    position = 0
+    return position
 
 # Iterate trough board
   for square in algebraic_notation:
@@ -183,50 +215,56 @@ def evaluate(board):
 
 # Check if there is a piece in the square
     if hasattr(piece, "piece_type"):
-
+      
 # Piece is black   
       if piece.symbol().islower():
 
         if piece.symbol() == "p":
-          position -= (100 + eval.black_pawn[square])
+          position -= (100 + black_pawn[square])
 
         elif piece.symbol() == "n":
-          position -= (320 + eval.black_knight[square])
+          position -= (320 + black_knight[square])
 
         elif piece.symbol() == "b":
-          position -= (330 + eval.black_bishop[square])
+          position -= (330 + black_bishop[square])
 
         elif piece.symbol() == "r":
-          position -= (500 + eval.black_rook[square])
+          position -= (500 + black_rook[square])
 
         elif piece.symbol() == "q":
-          position -= (900 + eval.black_queen[square])
+          position -= (900 + black_queen[square])
 
         elif piece.symbol() == "k":
-          position -= (2000 + eval.black_king[square])
+          position -= (2000 + black_king[square])
 
 # Piece is white
       elif piece.symbol().isupper():
 
         if piece.symbol() == "P":
-          position += (100 + eval.white_pawn[square])
+          position += (100 + white_pawn[square])
 
         elif piece.symbol() == "N":
-          position += (320 + eval.white_knight[square])
+          position += (320 + white_knight[square])
 
         elif piece.symbol() == "B":
-          position += (330 + eval.white_bishop[square])
+          position += (330 + white_bishop[square])
 
         elif piece.symbol() == "R":
-          position += (500 + eval.white_rook[square])
+          position += (500 + white_rook[square])
 
         elif piece.symbol() == "Q":
-          position += (900 + eval.white_queen[square])
+          position += (900 + white_queen[square])
 
         elif piece.symbol() == "K":
-          position += (2000 + eval.white_king[square])
+          position += (2000 + white_king[square])
       
-    return position
+  return position
+  
 
+print(evaluate(board))
 
-""""""
+"""
+Looking back it would have made more sense to code this in C since it would have been
+10x faster, but at the same time coding it in python in python with the module does 
+allow me to focues on the higher level implemantation.
+"""
