@@ -172,22 +172,6 @@ algebraic_notation = [
 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'
 ]
 
-"""
-board.push_san("e4")
-
-board.push_san("e5")
-
-board.push_san("Qh5")
-
-board.push_san("Nc6")
-
-board.push_san("Bc4")
-
-board.push_san("Nf6")
-
-board.push_san("Qxf7")
-"""
-
 def evaluate(board):
   position = 0
 
@@ -195,13 +179,13 @@ def evaluate(board):
   if board.is_checkmate():
 
 # White mate
-    if board.turn() == True:
-      position = 2000
+    if board.turn == True:
+      position = -2000
       return position
     
 # Black mate
-    else:
-      postion = -2000
+    elif board.turn == False:
+      postion = 2000
       return postion
     
 # Draw of stalemate
