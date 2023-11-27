@@ -172,6 +172,56 @@ algebraic_notation = [
 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'
 ]
 
+# Function to get each pieces value
+def piece_value(square, board):
+
+  piece = board.piece_at(chess.parse_square(f"{square}"))
+  
+  if hasattr(piece, "piece_type"):
+      
+# Piece is black   
+    if piece.symbol().islower():
+
+      if piece.symbol() == "p":
+        return (100 + black_pawn[square])
+
+      elif piece.symbol() == "n":
+        return (320 + black_knight[square])
+
+      elif piece.symbol() == "b":
+        return (330 + black_bishop[square])
+
+      elif piece.symbol() == "r":
+        return (500 + black_rook[square])
+
+      elif piece.symbol() == "q":
+        return (900 + black_queen[square])
+
+      elif piece.symbol() == "k":
+        return (2000 + black_king[square])
+
+# Piece is white
+    elif piece.symbol().isupper():
+
+      if piece.symbol() == "P":
+        return (100 + white_pawn[square])
+
+      elif piece.symbol() == "N":
+        return (320 + white_knight[square])
+
+      elif piece.symbol() == "B":
+        return (330 + white_bishop[square])
+
+      elif piece.symbol() == "R":
+        return (500 + white_rook[square])
+
+      elif piece.symbol() == "Q":
+        return (900 + white_queen[square])
+
+      elif piece.symbol() == "K":
+        return (2000 + white_king[square])
+
+# Function that evaluates the board
 def evaluate(board):
   position = 0
 
@@ -193,54 +243,9 @@ def evaluate(board):
     position = 0
     return position
 
-# Iterate trough board
+# Iterate trough board and get value for each piece
   for square in algebraic_notation:
-    piece = board.piece_at(chess.parse_square(f"{square}"))
-
-# Check if there is a piece in the square
-    if hasattr(piece, "piece_type"):
-      
-# Piece is black   
-      if piece.symbol().islower():
-
-        if piece.symbol() == "p":
-          position -= (100 + black_pawn[square])
-
-        elif piece.symbol() == "n":
-          position -= (320 + black_knight[square])
-
-        elif piece.symbol() == "b":
-          position -= (330 + black_bishop[square])
-
-        elif piece.symbol() == "r":
-          position -= (500 + black_rook[square])
-
-        elif piece.symbol() == "q":
-          position -= (900 + black_queen[square])
-
-        elif piece.symbol() == "k":
-          position -= (2000 + black_king[square])
-
-# Piece is white
-      elif piece.symbol().isupper():
-
-        if piece.symbol() == "P":
-          position += (100 + white_pawn[square])
-
-        elif piece.symbol() == "N":
-          position += (320 + white_knight[square])
-
-        elif piece.symbol() == "B":
-          position += (330 + white_bishop[square])
-
-        elif piece.symbol() == "R":
-          position += (500 + white_rook[square])
-
-        elif piece.symbol() == "Q":
-          position += (900 + white_queen[square])
-
-        elif piece.symbol() == "K":
-          position += (2000 + white_king[square])
+    position += piece_value(square, board)
       
   return position 
 
