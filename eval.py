@@ -257,6 +257,3 @@ Looking back it would have made more sense to code this in C since it would have
 10x faster, but at the same time coding it in python in python with the module does 
 allow me to focues on the higher level implemantation.
 """
-
-board = chess.Board()
-print(evaluate(board))
