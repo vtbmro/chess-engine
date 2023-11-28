@@ -183,22 +183,22 @@ def piece_value(square, board):
     if piece.symbol().islower():
 
       if piece.symbol() == "p":
-        return (100 + black_pawn[square])
+        return -(100 + black_pawn[square])
 
       elif piece.symbol() == "n":
-        return (320 + black_knight[square])
+        return -(320 + black_knight[square])
 
       elif piece.symbol() == "b":
-        return (330 + black_bishop[square])
+        return -(330 + black_bishop[square])
 
       elif piece.symbol() == "r":
-        return (500 + black_rook[square])
+        return -(500 + black_rook[square])
 
       elif piece.symbol() == "q":
-        return (900 + black_queen[square])
+        return -(900 + black_queen[square])
 
       elif piece.symbol() == "k":
-        return (2000 + black_king[square])
+        return -(2000 + black_king[square])
 
 # Piece is white
     elif piece.symbol().isupper():
@@ -220,6 +220,9 @@ def piece_value(square, board):
 
       elif piece.symbol() == "K":
         return (2000 + white_king[square])
+
+  else: 
+    return 0
 
 # Function that evaluates the board
 def evaluate(board):
@@ -254,3 +257,6 @@ Looking back it would have made more sense to code this in C since it would have
 10x faster, but at the same time coding it in python in python with the module does 
 allow me to focues on the higher level implemantation.
 """
+
+board = chess.Board()
+print(evaluate(board))
