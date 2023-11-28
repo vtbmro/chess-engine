@@ -23,7 +23,6 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
     if isMaximizingPlayer == True:
         value = -math.inf
         
-
 # Iterate trough legal moves
         for child in list(node.legal_moves):
             temp = copy.deepcopy(node)
@@ -59,6 +58,13 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
 
 # First call:
 origin = chess.Board()
-print(minimax_alphabeta(origin, 3, -math.inf, math.inf, True))
+print(minimax_alphabeta(origin, 5, -math.inf, math.inf, True))
 
+
+"""
+I can think of some ways to improve efficiency: when playing chess ussually you always
+look out for captures and checks, this could probably imporve the efficiency of the
+search algo. But for now this will do
+
+"""
 
