@@ -1,6 +1,8 @@
 import chess
 import eval
 from eval import evaluate
+import copy
+import math
 
 """
 After thinking about a brute search approach to find the best move and arriving to the
@@ -14,17 +16,21 @@ https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning#:~:text=Alpha%E2%80%93b
 def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
 
 # Base case OR game is over
-    if depth == 0 or node.gameisover():
+    if depth == 0 or node.is_checkmate():
         return evaluate(node)
 
 # Player is white
     if isMaximizingPlayer == True:
-        value = -10000
+        value = -math.inf
+        
 
 # Iterate trough legal moves
-        for move in node.legalmoves():
-            value = max(value, minimax_alphabeta(move, depth -1, alpha, beta, False))
-            
+        for child in list(node.legal_moves):
+            temp = copy.deepcopy(node)
+            temp.push_san(f"{child}")
+
+            value = max(value, minimax_alphabeta(temp, depth -1, alpha, beta, False))
+
             if value > beta:
                 break
 
@@ -34,11 +40,14 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
 
 # Player is black 
     else:
-        value = 10000
+        value = math.inf
 
 # Iterate trough legal moves
-        for move in node.legalmoves():
-            value = min(value, minimax_alphabeta(move, depth -1, alpha, beta, True)) 
+        for child in list(node.legal_moves):
+            temp = copy.deepcopy(node)
+            temp.push_san(f"{child}")
+
+            value = min(value, minimax_alphabeta(temp, depth -1, alpha, beta, True)) 
 
             if value < alpha:
                 break
@@ -49,8 +58,7 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
     
 
 # First call:
-
 origin = chess.Board()
+print(minimax_alphabeta(origin, 3, -math.inf, math.inf, True))
 
-minimax_alphabeta(origin, 3, -100000, 100000, True)
 
