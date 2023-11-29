@@ -17,6 +17,7 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
 
 # Base case OR game is over
     if depth == 0 or node.is_checkmate():
+        
         return evaluate(node)
 
 # Player is white
@@ -25,13 +26,15 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
         
 # Iterate trough legal moves
         for child in list(node.legal_moves):
+
+# Makes a deepcopy of the board, and then makes the move on the board
             temp = copy.deepcopy(node)
             temp.push_san(f"{child}")
 
             value = max(value, minimax_alphabeta(temp, depth -1, alpha, beta, False))
 
             if value > beta:
-                break
+                break 
 
             alpha = max(alpha, value)
 
@@ -43,6 +46,8 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
 
 # Iterate trough legal moves
         for child in list(node.legal_moves):
+
+# Makes a deepcopy of the board, and then makes the move on the board
             temp = copy.deepcopy(node)
             temp.push_san(f"{child}")
 
@@ -55,16 +60,18 @@ def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
 
         return value      
     
-
 # First call:
 origin = chess.Board()
-print(minimax_alphabeta(origin, 5, -math.inf, math.inf, True))
-
-
-"""
-I can think of some ways to improve efficiency: when playing chess ussually you always
-look out for captures and checks, this could probably imporve the efficiency of the
-search algo. But for now this will do
+print(minimax_alphabeta(origin, 7, -math.inf, math.inf, True))
 
 """
+I can think of some ways to improve efficiency: 
+- Looking out for captures and checks increasing the chace for early cut offs
+- Storing common positions, such as keeping a book of opening.
+- The eval function could be optimized.
+"""
 
+"""
+TODO: make it so that the function returns the line of moves, that leads to the
+"best position" instead of the evaluation of the final position
+"""
