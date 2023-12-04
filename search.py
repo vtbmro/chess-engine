@@ -74,4 +74,7 @@ I can think of some ways to improve efficiency:
 """
 TODO: make it so that the function returns the line of moves, that leads to the
 "best position" instead of the evaluation of the final position
-"""
+Other posible improvements:
+-Adding engame table bases
+-Adding an opening book
+""" 
