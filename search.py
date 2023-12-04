@@ -1,80 +1,85 @@
 import chess
-import eval
-from eval import evaluate
 import copy
 import math
+from eval import evaluate
 
 """
-After thinking about a brute search approach to find the best move and arriving to the
-conclussion of how brutally inneficient that would be. I found an algorithm online
-called Minimax, which I will implement using alpha, beta pruning as well
 
-Information for the function found at:
-https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning#:~:text=Alpha%E2%80%93beta%20pruning%20is%20a,Connect%204%2C%20etc.).
+source: https://www.youtube.com/watch?v=l-hh51ncgDI
+
+This function look ahead at future positions, before deciding what move to make,
+it traverses every position until it reaches the desired position. When depth is reached
+we perform a static evaluation of the position.
 """
+
+# The function takes as input: board, depth, -math.infinity, math.infinity and True if 
+# it is whites turn or flase if it is blacks turn
 
 def minimax_alphabeta(node, depth, alpha, beta, isMaximizingPlayer):
-
-# Base case OR game is over
+    
+# Base case, reached desired depth or game is over
     if depth == 0 or node.is_checkmate():
-        
-        return evaluate(node)
+        return evaluate(node), []
 
-# Player is white
-    if isMaximizingPlayer == True:
+    # White to play 
+    if isMaximizingPlayer:
+
+        # In white's case we make value -infinity since, when the evaluate function is favorable
+        # for black it returns a positive integer
         value = -math.inf
-        
-# Iterate trough legal moves
+
+        # Store best sequence of moves
+        best_moves = []
+
+        # Iterate trough moves and call funcion recursively
         for child in list(node.legal_moves):
 
-# Makes a deepcopy of the board, and then makes the move on the board
+            # Creating another board where we play each move
             temp = copy.deepcopy(node)
             temp.push_san(f"{child}")
 
-            value = max(value, minimax_alphabeta(temp, depth -1, alpha, beta, False))
+            # Calling function recursively
+            child_value, child_moves = minimax_alphabeta(temp, depth - 1, alpha, beta, False)
 
-            if value > beta:
-                break 
+            if child_value > value:
+                value = child_value
+
+                # Add move if its better
+                best_moves = [child] + child_moves
+
 
             alpha = max(alpha, value)
 
-        return value
+            # Prune the search tree if necessary
+            if value >= beta:
+                break
 
-# Player is black 
+        return value, best_moves
+
+# Black to play
     else:
+        # In black's case we make value infinity since, when the evaluate function is favorable
+        # for black it returns a negative integer
         value = math.inf
 
-# Iterate trough legal moves
-        for child in list(node.legal_moves):
+        best_moves = []
 
-# Makes a deepcopy of the board, and then makes the move on the board
+        for child in list(node.legal_moves):
             temp = copy.deepcopy(node)
             temp.push_san(f"{child}")
 
-            value = min(value, minimax_alphabeta(temp, depth -1, alpha, beta, True)) 
+            child_value, child_moves = minimax_alphabeta(temp, depth - 1, alpha, beta, True)
 
-            if value < alpha:
-                break
+            if child_value < value:
+                value = child_value
+                best_moves = [child] + child_moves
 
             beta = min(beta, value)
 
-        return value      
-    
-# First call:
-origin = chess.Board()
-print(minimax_alphabeta(origin, 7, -math.inf, math.inf, True))
+            if value <= alpha:
+                break
 
-"""
-I can think of some ways to improve efficiency: 
-- Looking out for captures and checks increasing the chace for early cut offs
-- Storing common positions, such as keeping a book of opening.
-- The eval function could be optimized.
-"""
+        return value, best_moves
 
-"""
-TODO: make it so that the function returns the line of moves, that leads to the
-"best position" instead of the evaluation of the final position
-Other posible improvements:
--Adding engame table bases
--Adding an opening book
-""" 
+
+
