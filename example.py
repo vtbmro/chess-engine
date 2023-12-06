@@ -4,7 +4,9 @@ import math
 from eval import evaluate
 from search import minimax_alphabeta
 
-board = chess.Board("8/8/6pr/6p1/5pPk/5P1p/5P1K/R7")
+print("Input chess board FEN:")
+chess_board = input()
+board = chess.Board(f"{chess_board}")
 
 print(board)
 print("")
