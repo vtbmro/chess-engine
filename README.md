@@ -6,6 +6,9 @@ search ande eval. The eval file contains an evaluation function that takes as in
 a chess board and returns a integer, the more positive the better for white the more
 negative the better for black
 
+Also you will find a lot of dicts, for each of the pieces and color that was added
+to help the search function make better and more natural moves, valuing better positioned pieces higher.
+
 The search file contains a minimax function based on alpha beta pruning, that
 basically finds the best move for the inputted player in that position by returning the best sequence of moves and a value for the evaluation of the final position.
 
