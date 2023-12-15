@@ -4,11 +4,12 @@ import math
 from eval import evaluate
 from search import minimax_alphabeta
 
-chess_board = chess.Board()
-board = chess.Board()
+chess_board = input("Enter a valid chess board FEN:")
 
-print(board)
-print("")
+
+board = chess.Board(f"{chess_board}")
+print(board, "\n")
+
 
 best_value, best_moves = minimax_alphabeta(board, 5, -math.inf, math.inf, True)
 
@@ -17,4 +18,4 @@ for move in best_moves:
     print(board)
     print("")
 
-print(best_value)
+print(f"Board evaluation: {best_value}")
