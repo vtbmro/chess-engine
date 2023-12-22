@@ -1,7 +1,5 @@
 # SIMPLE CHESS ENGINE
-#### Video Demo: https://www.youtube.com/watch?v=ODaDx3Qb0Yg
 #### Description: 
-My name is Vicente Bravo Miranda, I'am from Haro la Rioja Spain and this is my final project for CS50x. My idea was to build a chess engine, basically a program that calculates the best move for a player given a X chess position.
 
 My reason to build the program using python instead of C, was to abstract away the more complex problems, such as board representation, move generation for each piece castling etc... And just be able to focus on the higher level implementaions that are basically 2 files: search.py and eval.py.
 
